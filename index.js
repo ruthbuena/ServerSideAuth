@@ -5,6 +5,7 @@ const http = require('http');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const app = express();  //creates an instance of the application
+const router = require('./router');
 
 // App Setup - get express working; Morgan is middleware in express (incoming requests will pass thru morgan/bodyParser)
 //Morgan is a logging framework; logs incoming requests, helps with debugging
@@ -13,6 +14,7 @@ const app = express();  //creates an instance of the application
 
 app.use(morgan('combined'));
 app.use(bodyParser.json({ type: '*/*' }));
+router(app);
 
 
 

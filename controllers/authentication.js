@@ -1,4 +1,13 @@
+const jwt = require('jwt-simple');
 const User = require('../models/user');
+const config = require('../config');
+
+//jwt is a standard convention that has a sub aka subject; here we say sub is this specific user
+//also add timestamp for additional layer of when user signed up
+function tokenForUser(user) {
+  const timestamp = new Date().getTime();
+  return jwt.encode({ sub: user.id, iat: timestamp }, config.secret);
+}
 
 exports.signup = function(req, res, next) {
   // console.log(req.body);
@@ -33,7 +42,7 @@ User.findOne({ email: email }, function(err, existingUser){
 
   //Respond to request indicating the user was created
   // res.json(user) - removed this so that user pw doesn't show up
-  res.json({ success: true });
+  res.json({ token: tokenForUser(user) });
 });
 });
 }

@@ -18,11 +18,13 @@ User.findOne({ email: email }, function (err, user) {
   if (!user) { return done(null, false); }
 
   //compare passwords - is password equal to user.password?
+user.comparePassword(password, function(err, isMatch) {
+  if(err) { return done(err); }
+  if(!isMatch) { return done(null, false); }
 
-
-
+  return done (null, user);
+    });
   });
-
 });
 
 
@@ -51,3 +53,4 @@ const jwtLogin = new JwtStrategy(jwtOptions, function(payload, done) {
 
 //Tell passport to use this Strategy; Strategies are part of the Passport ecosystem
 passport.use(jwtLogin);
+passport.use(localLogin);

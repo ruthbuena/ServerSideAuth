@@ -19,7 +19,7 @@ mongoose.connect('mongodb://localhost:auth/auth');
 //Nodemon installed to watch for file changes
 
 app.use(morgan('combined'));
-app.use(cors());
+app.use(cors());//you can specify a specific api or site
 app.use(bodyParser.json({ type: '*/*' }));
 router(app);
 
